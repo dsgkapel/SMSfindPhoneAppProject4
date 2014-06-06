@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMS Phone Locator</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="version">Version 0.1</string>
+    <string name="button">Button</string>
+
+    <color name="Black">#000000</color>
+    <color name="White">#FFFFFF</color>
+
+    <string name="title_activity_sponsorus">Sponsorus</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_log">Log</string>
+    <string name="title_activity_helpinfo">Helpinfo</string>
+
+</resources>
