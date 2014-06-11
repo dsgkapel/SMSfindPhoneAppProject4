@@ -6,50 +6,65 @@
     android:orientation="vertical"
     tools:context="com.example.smsphone.MainActivity" >
 
-    <ImageView
+    <Button
         android:id="@+id/turnon"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="turnon"
-        android:src="@drawable/turnon" />
+        android:text="Turn on"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-    <ImageView
+    <Button
         android:id="@+id/sponsorus"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="sponsorus"
-        android:src="@drawable/sponsorus" />
+        android:text="Sponsor us"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-    <ImageView
+    <Button
         android:id="@+id/gopro"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="sponsorus"
-        android:src="@drawable/gopro" />
+        android:text="Go pro"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-    <ImageView
+    <Button
         android:id="@+id/settings"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="settings"
-        android:src="@drawable/settings" />
+        android:text="Settings"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-    <ImageView
+    <Button
         android:id="@+id/helpinfo"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="helpinfo"
-        android:src="@drawable/helpinfo" />
+        android:text="Help and info"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/version"

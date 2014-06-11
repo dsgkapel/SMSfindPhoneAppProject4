@@ -1,35 +1,31 @@
 package nl.dsgkapel.smsphonelocator;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.os.Build;
 
-public class Settings extends ActionBarActivity {
-
-	private String codestring;
+public class Entercode extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
+		setContentView(R.layout.activity_entercode);
+
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.settings, menu);
+		getMenuInflater().inflate(R.menu.entercode, menu);
 		return true;
 	}
 
@@ -56,37 +52,17 @@ public class Settings extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_settings,
-					container, false);
+			View rootView = inflater.inflate(R.layout.fragment_log, container,
+					false);
 			return rootView;
 		}
 	}
-
-	public void code(View view) {
-
-		Intent intent = new Intent(this, Entercode.class);
-		startActivity(intent);
-	}
-
+	
 	public void exit(View view) {
-
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, Settings.class);
 		startActivity(intent);
-
 	}
+	
 
-	public void pro(View view) {
-
-		Intent intent = new Intent(this, Sponsorus.class);
-		startActivity(intent);
-
-	}
-
-	public void log(View view) {
-
-		Intent intent = new Intent(this, Log.class);
-		startActivity(intent);
-
-	}
 
 }

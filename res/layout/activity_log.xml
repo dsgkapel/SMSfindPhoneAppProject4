@@ -20,14 +20,17 @@
         android:text="06-03-2014 17:48 Coordinates sent to 06123456789"
         android:textColor="@color/White" />
 
-    <ImageView
+    <Button
         android:id="@+id/exit"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="exit"
-        android:src="@drawable/exit" />
+        android:text="Exit "
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/version"

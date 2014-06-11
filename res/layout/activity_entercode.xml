@@ -6,51 +6,24 @@
     android:orientation="vertical"
     tools:context="com.example.smsphone.MainActivity" >
 
-    <Button
-        android:id="@+id/code"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
+    <EditText
+        android:id="@+id/save"
+        android:layout_width="166dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="code"
-        android:text="Enter code"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:hint="Enter code"
+        android:inputType="text" />
 
     <Button
-        android:id="@+id/block"
+        android:id="@+id/savecode"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:onClick="pro"
-        android:text="Blocked "
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/allow"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="pro"
-        android:text="Allowed numbers"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/log"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="log"
-        android:text="View log"
+        android:onClick="save"
+        android:text="Save code"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
@@ -62,7 +35,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
         android:onClick="exit"
-        android:text="Exit settings"
+        android:text="Exit "
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 

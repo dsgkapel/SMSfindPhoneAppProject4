@@ -38,6 +38,10 @@
             android:name="nl.dsgkapel.smsphonelocator.Helpinfo"
             android:label="@string/title_activity_helpinfo" >
         </activity>
+        <activity
+            android:name="nl.dsgkapel.smsphonelocator.Entercode"
+            android:label="@string/title_activity_entercode" >
+        </activity>
     </application>
 
 </manifest>

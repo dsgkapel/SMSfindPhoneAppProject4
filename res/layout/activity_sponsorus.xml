@@ -6,22 +6,24 @@
     android:orientation="vertical"
     tools:context="com.example.smsphone.MainActivity" >
 
-        <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Hier zal een verwijzing naar de play store komen"
         android:textColor="@color/White" />
-    
-    
-    <ImageView
-        android:id="@+id/back"
+
+    <Button
+        android:id="@+id/exit"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/button"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:onClick="back"
-        android:src="@drawable/back" />
+        android:text="Exit "
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/version"

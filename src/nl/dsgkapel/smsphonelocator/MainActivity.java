@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -37,13 +37,13 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void turnon(View view) {
-		ImageView onoff = (ImageView) findViewById(R.id.turnon);
+		Button onoff = (Button) findViewById(R.id.turnon);
 		if (on == false) {
-			onoff.setImageResource(R.drawable.turnon);
+			onoff.setText("Turn on");
 			on = true;
 			// service aanzetten komt hier
 		} else {
-			onoff.setImageResource(R.drawable.turnoff);
+			onoff.setText("Turn off");
 			on = false;
 		}
 	}
