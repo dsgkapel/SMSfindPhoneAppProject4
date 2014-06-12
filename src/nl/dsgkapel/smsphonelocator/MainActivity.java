@@ -38,14 +38,7 @@ public class MainActivity extends ActionBarActivity {
 
 	public void turnon(View view) {
 		Button onoff = (Button) findViewById(R.id.turnon);
-		if (on == false) {
-			onoff.setText("Turn on");
-			on = true;
-			// service aanzetten komt hier
-		} else {
-			onoff.setText("Turn off");
-			on = false;
-		}
+		startService(new Intent(this, Smsgps.class));
 	}
 
 	public void sponsorus(View view) {

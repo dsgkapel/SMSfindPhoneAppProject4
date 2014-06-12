@@ -4,6 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
@@ -42,6 +46,18 @@
             android:name="nl.dsgkapel.smsphonelocator.Entercode"
             android:label="@string/title_activity_entercode" >
         </activity>
+
+        <service
+            android:name="nl.dsgkapel.smsphonelocator.Smsgps"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver
+            android:name="nl.dsgkapel.smsphonelocator.SmsReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
 </manifest>

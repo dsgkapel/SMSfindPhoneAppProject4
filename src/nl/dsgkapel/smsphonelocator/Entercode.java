@@ -63,6 +63,10 @@ public class Entercode extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
+	public void save(){
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
 
 
 }
