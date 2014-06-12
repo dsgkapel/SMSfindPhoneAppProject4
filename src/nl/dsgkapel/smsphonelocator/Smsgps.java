@@ -1,5 +1,6 @@
 package nl.dsgkapel.smsphonelocator;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +17,8 @@ public class Smsgps extends Service {
 
 	public static boolean running = false;
 	
+
+
 	public Smsgps() {
 
 	}
@@ -26,20 +30,16 @@ public class Smsgps extends Service {
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
-		
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
 		registerReceiver(receiver, filter);
-
-		
 		running = true;
-		
-		
-		
+
 		return START_STICKY;
 	}
-	
-	public void onDestroy(){
+
+	public void onDestroy() {
 		Context context = getApplicationContext();
 		running = false;
 		CharSequence text = "Service stopped";
@@ -50,33 +50,43 @@ public class Smsgps extends Service {
 	}
 
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
-		
+		String phonenr;
+		String messageText = "It works!";
 
-		
-	    private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
-	    private static final String TAG = "SMSBroadcastReceiver";
+		private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
+		private static final String TAG = "SMSBroadcastReceiver";
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-	        Log.i(TAG, "Intent recieved: " + intent.getAction());
+			Log.i(TAG, "Intent recieved: " + intent.getAction());
 
-	        if (intent.getAction() == SMS_RECEIVED) {
-	            Bundle bundle = intent.getExtras();
-	            if (bundle != null) {
-	                Object[] pdus = (Object[]) bundle.get("pdus");
-	                final SmsMessage[] messages = new SmsMessage[pdus.length];
-	                for (int i = 0; i < pdus.length; i++) {
-	                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-	                }
-	                if (messages.length > -1) {
-	                	//Hier komt de code voor het reageren op een sms
-	                    Log.i(TAG,
-	                            "Message recieved: " + messages[0].getMessageBody());
-	                    CharSequence text = "SMS Received";
-	                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-	                }
-	            }
-	        }
+			if (intent.getAction() == SMS_RECEIVED) {
+				Bundle bundle = intent.getExtras();
+				if (bundle != null) {
+					
+					Object[] pdus = (Object[]) bundle.get("pdus");
+					final SmsMessage[] messages = new SmsMessage[pdus.length];
+					
+					for (int i = 0; i < pdus.length; i++) {
+						messages[i] = SmsMessage
+								.createFromPdu((byte[]) pdus[i]);
+						phonenr += messages[i].getOriginatingAddress();
+					}
+					if (messages.length > -1) {
+						// Hier komt de code voor het reageren op een sms
+						Log.i(TAG,
+								"Message recieved: "
+										+ messages[0].getMessageBody());
+						CharSequence text = "SMS Received";
+						Toast.makeText(context, text, Toast.LENGTH_SHORT)
+								.show();
+						
+						SmsManager sms = SmsManager.getDefault();
+						sms.sendTextMessage(phonenr, null, messageText, null, null);
+
+					}
+				}
+			}
 		}
 	};
 
