@@ -11,11 +11,23 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
 
 	public static boolean on;
+	public static String a = "Turn app on";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		Button onoff = (Button) findViewById(R.id.turnon);
+
+		if (Smsgps.running == false || a == "turn app on") {
+			a = "Turn app on";
+			onoff.setText(a);
+			
+		} else {
+			a = "Turn app on";
+			onoff.setText(a);
+		}
 
 	}
 
@@ -38,7 +50,17 @@ public class MainActivity extends ActionBarActivity {
 
 	public void turnon(View view) {
 		Button onoff = (Button) findViewById(R.id.turnon);
-		startService(new Intent(this, Smsgps.class));
+		if (Smsgps.running == false || a == "turn app on") {
+			startService(new Intent(this, Smsgps.class));
+			a = "Turn app off";
+			onoff.setText(a);
+		}
+		else{
+			
+			stopService(new Intent(this, Smsgps.class));
+			a = "Turn app on";
+			onoff.setText(a);
+		}
 	}
 
 	public void sponsorus(View view) {
@@ -60,4 +82,3 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 }
-

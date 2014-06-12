@@ -12,6 +12,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class Smsgps extends Service {
+
+	public static boolean running = false;
+	
 	public Smsgps() {
 
 	}
@@ -26,13 +29,29 @@ public class Smsgps extends Service {
 		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		
 		registerReceiver(receiver, filter);
 
+		
+		running = true;
+		
+		
+		
 		return START_STICKY;
+	}
+	
+	public void onDestroy(){
+		Context context = getApplicationContext();
+		running = false;
+		CharSequence text = "Service stopped";
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+		MainActivity.a = "Turn app on";
 	}
 
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+
 		
 	    private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 	    private static final String TAG = "SMSBroadcastReceiver";
@@ -50,6 +69,7 @@ public class Smsgps extends Service {
 	                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
 	                }
 	                if (messages.length > -1) {
+	                	//Hier komt de code voor het reageren op een sms
 	                    Log.i(TAG,
 	                            "Message recieved: " + messages[0].getMessageBody());
 	                    CharSequence text = "SMS Received";
