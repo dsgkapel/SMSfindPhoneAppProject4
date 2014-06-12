@@ -19,7 +19,7 @@ public class Smsgps extends Service {
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
 		
-		SmsReceiver sms = new SmsReceiver(); 
+		SmsReceiver sms = new SmsReceiver();
 		
 		return START_STICKY;
 	}

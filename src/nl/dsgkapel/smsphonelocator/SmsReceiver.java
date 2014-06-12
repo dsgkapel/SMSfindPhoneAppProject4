@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
 	
@@ -28,6 +29,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 if (messages.length > -1) {
                     Log.i(TAG,
                             "Message recieved: " + messages[0].getMessageBody());
+                    CharSequence text = "SMS Received";
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 }
             }
         }
