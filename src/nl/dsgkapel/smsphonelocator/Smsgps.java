@@ -1,7 +1,8 @@
 package nl.dsgkapel.smsphonelocator;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -12,7 +13,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -23,7 +23,7 @@ public class Smsgps extends Service {
 
 	public static boolean running = false;
 	LocationManager lm;
-
+	FileWriter coords;
 	public static String latstring;
 	public static String longstring;
 	private static final String TAG = "coordinates";
@@ -58,9 +58,36 @@ public class Smsgps extends Service {
 				ll); // LocationListener
 		latstring = "Latitude: " + l.getLatitude();
 		longstring = " Longitude: " + l.getLongitude();
+		String txt = latstring + longstring;
 		Log.v(TAG, latstring + longstring);
-		lm.removeUpdates(ll);
+		try {
+			
 
+	        FileOutputStream fos ;
+
+	        try {
+	            fos = new FileOutputStream("/storage/sdcard0/coord.txt", true);
+
+	            FileWriter fWriter;
+
+	            try {
+	                fWriter = new FileWriter(fos.getFD());
+	                fWriter.write(txt);
+	                fWriter.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            } finally {
+	                fos.getFD().sync();
+	                fos.close();
+	            }
+	        } 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	} finally {
+		
+	}
 	}
 
 	public void onDestroy() {
