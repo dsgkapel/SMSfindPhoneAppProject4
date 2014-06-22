@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class Smsgps extends Service {
 	private static final String TAG = "coordinates";
 	private Timer timer;
 	String PROVIDER = LocationManager.GPS_PROVIDER;
+	String code = "test";
+	public static String deadstring;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -40,6 +43,7 @@ public class Smsgps extends Service {
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+		TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		registerReceiver(receiver, filter);
 		running = true;
 		Location location = lm.getLastKnownLocation(PROVIDER);
@@ -50,44 +54,58 @@ public class Smsgps extends Service {
 	}
 
 	public void saveLoc(Location l) {
+		Context context = getApplicationContext();
 		Log.v(TAG, "Method running");
-
 		lm.requestLocationUpdates(PROVIDER, // provider
 				0, // minTime in ms
 				0, // minDistance in m
 				ll); // LocationListener
-		latstring = "Latitude: " + l.getLatitude();
-		longstring = " Longitude: " + l.getLongitude();
-		String txt = latstring + longstring;
-		Log.v(TAG, latstring + longstring);
 		try {
-			
+			latstring = "Latitude: " + l.getLatitude();
+			longstring = " Longitude: " + l.getLongitude();
 
-	        FileOutputStream fos ;
+			Log.v(TAG, latstring + longstring);
 
-	        try {
-	            fos = new FileOutputStream("/storage/sdcard0/coord.txt", true);
+			if (!latstring.equals("null")) {
+				Log.v(TAG, latstring + longstring);
+				lm.removeUpdates(ll);
+			}
 
-	            FileWriter fWriter;
+			String txt = latstring + longstring;
+			try {
 
-	            try {
-	                fWriter = new FileWriter(fos.getFD());
-	                fWriter.write(txt);
-	                fWriter.close();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            } finally {
-	                fos.getFD().sync();
-	                fos.close();
-	            }
-	        } 
-	        catch (Exception e) {
-	            e.printStackTrace();
-	        }
+				FileOutputStream fos;
 
-	} finally {
-		
-	}
+				try {
+					fos = new FileOutputStream("/storage/sdcard0/coord.txt",
+							true);
+
+					FileWriter fWriter;
+
+					try {
+						fWriter = new FileWriter(fos.getFD());
+						fWriter.write(txt);
+						fWriter.close();
+						Log.v(TAG, txt);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						fos.getFD().sync();
+						fos.close();
+						Log.v(TAG, txt);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} finally {
+
+			}
+		} catch (RuntimeException e) {
+			Toast.makeText(context, "No Sim card detected, stopping service",
+					Toast.LENGTH_SHORT).show();
+			stopService(new Intent(this, Smsgps.class));
+		}
 	}
 
 	public void onDestroy() {
@@ -107,6 +125,8 @@ public class Smsgps extends Service {
 		String messageText = latstring + longstring;
 		private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 		private static final String TAG = "SMSBroadcastReceiver";
+		IntentFilter filter = new IntentFilter();
+		SmsManager sms = SmsManager.getDefault();
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -126,17 +146,21 @@ public class Smsgps extends Service {
 					}
 					if (messages.length > -1) {
 
-						// Hier komt de code voor het reageren op een sms
-						Log.i(TAG,
-								"Message recieved: "
-										+ messages[0].getMessageBody());
-						CharSequence text = "SMS Received";
+						String messagebody = messages[0].getMessageBody();
+						Log.i(TAG, "Message recieved: " + messagebody);
+						CharSequence text = "SMS Received: " + messagebody;
 						Toast.makeText(context, text, Toast.LENGTH_SHORT)
 								.show();
 
-						SmsManager sms = SmsManager.getDefault();
-						sms.sendTextMessage(phonenr, null, messageText, null,
-								null);
+						if (messagebody.equals(code)) {
+
+							sms.sendTextMessage(phonenr, null, messageText,
+									null, null);
+
+						} else {
+							clearAbortBroadcast();
+
+						}
 
 					}
 				}
