@@ -7,16 +7,17 @@
     tools:context="com.example.smsphone.MainActivity" >
 
     <EditText
-        android:id="@+id/save"
+        android:id="@+id/savecode"
         android:layout_width="166dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
+        android:textColor="#FFFFFF"
         android:hint="Enter code"
         android:inputType="text" />
 
     <Button
-        android:id="@+id/savecode"
+        android:id="@+id/savebutton"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_gravity="center"

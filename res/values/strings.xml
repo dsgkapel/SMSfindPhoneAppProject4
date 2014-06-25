@@ -15,5 +15,6 @@
     <string name="title_activity_log">Log</string>
     <string name="title_activity_helpinfo">Helpinfo</string>
     <string name="title_activity_entercode">Entercode</string>
+    <string name="title_activity_blockednumbers">Blockednumbers</string>
 
 </resources>

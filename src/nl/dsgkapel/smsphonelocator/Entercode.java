@@ -1,19 +1,29 @@
 package nl.dsgkapel.smsphonelocator;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class Entercode extends ActionBarActivity {
 
+	private static final String TAG = "tag";
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,8 +73,44 @@ public class Entercode extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	public void save(){
-		throw new UnsupportedOperationException("Not yet implemented");
+	public void save(View view){
+		Context context = getApplicationContext();
+		EditText codetext = (EditText) findViewById(R.id.savecode);
+		String codestring = codetext.getText().toString();
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "code.txt");
+		try {
+
+			FileOutputStream fos;
+
+			try {
+				fos = new FileOutputStream(file,
+						false);
+
+				FileWriter fWriter;
+
+				try {
+					fWriter = new FileWriter(fos.getFD());
+					fWriter.write(codestring);
+					fWriter.close();
+					Log.v(TAG, codestring);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					fos.getFD().sync();
+					fos.close();
+					Log.v(TAG, codestring);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} finally {
+
+		}
+		Toast.makeText(context, "code saved",
+				Toast.LENGTH_SHORT).show();
 	}
 	
 

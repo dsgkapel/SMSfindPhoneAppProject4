@@ -1,56 +1,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/blocklayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Black"
     android:orientation="vertical"
-    tools:context="com.example.smsphone.MainActivity" >
+    tools:context="com.example.smsphone.Blockednumbers" >
+
+    <EditText
+        android:id="@+id/savenum"
+        android:inputType="phone"
+        android:digits="0123456789+"
+        android:layout_width="166dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:hint="Enter phone number"
+        android:textColor="#FFFFFF" />
+    
+        <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Enter number in this format: +31612345678"
+        android:textColor="@color/White" />
 
     <Button
-        android:id="@+id/code"
+        android:id="@+id/savebutton"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:onClick="code"
-        android:text="Enter code"
+        android:onClick="save"
+        android:text="Save code"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/block"
+        android:id="@+id/clear"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:onClick="blocked"
-        android:text="Blocked numbers"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/allow"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="pro"
-        android:text="Allowed numbers"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/log"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="log"
-        android:text="View log"
+        android:onClick="clearnum"
+        android:text="Clear list"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
@@ -62,7 +58,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
         android:onClick="exit"
-        android:text="Exit settings"
+        android:text="Exit "
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
@@ -71,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/version"
+        android:text="Blocked numbers:"
         android:textColor="@color/White" />
 
 </LinearLayout>

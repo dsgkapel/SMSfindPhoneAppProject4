@@ -1,12 +1,14 @@
 package nl.dsgkapel.smsphonelocator;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 
 import android.app.Service;
@@ -34,10 +36,11 @@ public class Smsgps extends Service {
 	public String latstring;
 	public String longstring;
 	private static final String TAG = "coordinates";
+	private static final String TAG2 = "codestring";
 	private Timer timer;
 	String PROVIDER = LocationManager.GPS_PROVIDER;
-	String code = "test";
-	
+	public String code;
+	public ArrayList<String> blockednumbers = new ArrayList<String>();
 	public String newline = System.getProperty("line.separator");
 	
 
@@ -58,13 +61,68 @@ public class Smsgps extends Service {
 		running = true;
 		Location location = lm.getLastKnownLocation(PROVIDER);
 
+		getCode();
 		saveLoc(location);
 
 		return START_STICKY;
 	}
 	
 	
+	public void getCode(){
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "code.txt");
 
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			StringBuffer fileContent = new StringBuffer("");
+
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader buffreader = new BufferedReader(isr);
+
+			String readString = "";
+			while (readString != null) {
+				fileContent.append(readString);
+				readString = buffreader.readLine();
+				if(readString != null){
+				code = readString;
+				}
+			}
+			fis.close();
+			Log.v(TAG2, "Code = "+ code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void getBlocked(){
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "blocked.txt");
+
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			StringBuffer fileContent = new StringBuffer("");
+
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader buffreader = new BufferedReader(isr);
+			
+			String readString = "";
+			while (readString != null) {
+				fileContent.append(readString);
+				readString = "null"+ buffreader.readLine();
+				if(readString != null){
+				blockednumbers.add(readString);
+				}
+			}
+			fis.close();
+			Log.v(TAG2, "Code = "+ code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	public void saveLoc(Location l) {
 		Context context = getApplicationContext();
@@ -117,9 +175,9 @@ public class Smsgps extends Service {
 		@Override
 		 
 		public void onReceive(Context context, Intent intent) {
-			
+			boolean blocked = false;
 			Log.i(TAG, "Intent recieved: " + intent.getAction());
-
+			String[] blockarray = blockednumbers.toArray(new String[blockednumbers.size()]);
 			if (intent.getAction() == SMS_RECEIVED) {
 				Bundle bundle = intent.getExtras();
 				if (bundle != null) {
@@ -140,13 +198,23 @@ public class Smsgps extends Service {
 						Toast.makeText(context, text, Toast.LENGTH_SHORT)
 								.show();
 
-						if (messagebody.equals(code)) {
+						for(int i = 0; i < blockarray.length; i++){
+							if(blockarray[i] == phonenr){
+								blocked = true;
+							}
+							else{
+								blocked = false;
+							}
+						}
+						
+						if (messagebody.equals(code) && blocked == false) {
 
+							
 							sms.sendTextMessage(phonenr, null, latstring + longstring,
 									null, null);
 							SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							String format = s.format(new Date());
-							String ts = "SMS sent at " + format + newline;
+							String ts = "SMS sent to " + phonenr + " at " + format + newline;
 							try {
 
 								FileOutputStream fos;
@@ -176,7 +244,7 @@ public class Smsgps extends Service {
 							} finally {
 
 							}
-							
+							}
 							
 
 						} else {
@@ -187,7 +255,7 @@ public class Smsgps extends Service {
 
 					}
 				}
-			}
+			
 		}
 	};
 

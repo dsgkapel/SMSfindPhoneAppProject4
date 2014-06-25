@@ -82,6 +82,13 @@ public class Settings extends ActionBarActivity {
 
 	}
 
+	public void blocked(View view) {
+
+		Intent intent = new Intent(this, Blockednumbers.class);
+		startActivity(intent);
+
+	}
+	
 	public void log(View view) {
 
 		Intent intent = new Intent(this, Log.class);
