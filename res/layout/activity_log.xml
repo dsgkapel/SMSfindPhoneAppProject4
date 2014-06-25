@@ -4,20 +4,15 @@
     android:layout_height="match_parent"
     android:background="@color/Black"
     android:orientation="vertical"
+    android:id="@+id/loglayout"
     tools:context="com.example.smsphone.MainActivity" >
 
     <TextView
+        android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="06-05-2014 14:32 Coordinates sent to 06123456789"
-        android:textColor="@color/White" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="06-03-2014 17:48 Coordinates sent to 06123456789"
+        android:text=""
         android:textColor="@color/White" />
 
     <Button
@@ -32,12 +27,6 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/version"
-        android:textColor="@color/White" />
+
 
 </LinearLayout>

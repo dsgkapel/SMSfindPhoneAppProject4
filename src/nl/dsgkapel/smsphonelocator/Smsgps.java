@@ -1,7 +1,12 @@
 package nl.dsgkapel.smsphonelocator;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 
 import android.app.Service;
@@ -13,6 +18,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -25,14 +31,18 @@ public class Smsgps extends Service {
 	public static boolean running = false;
 	LocationManager lm;
 	FileWriter coords;
-	public static String latstring;
-	public static String longstring;
+	public String latstring;
+	public String longstring;
 	private static final String TAG = "coordinates";
 	private Timer timer;
 	String PROVIDER = LocationManager.GPS_PROVIDER;
 	String code = "test";
-	public static String deadstring;
+	
+	public String newline = System.getProperty("line.separator");
+	
 
+
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Context context = getApplicationContext();
@@ -52,6 +62,9 @@ public class Smsgps extends Service {
 
 		return START_STICKY;
 	}
+	
+	
+
 
 	public void saveLoc(Location l) {
 		Context context = getApplicationContext();
@@ -66,43 +79,9 @@ public class Smsgps extends Service {
 
 			Log.v(TAG, latstring + longstring);
 
-			if (!latstring.equals("null")) {
-				Log.v(TAG, latstring + longstring);
-				lm.removeUpdates(ll);
-			}
-
-			String txt = latstring + longstring;
-			try {
-
-				FileOutputStream fos;
-
-				try {
-					fos = new FileOutputStream("/storage/sdcard0/coord.txt",
-							true);
-
-					FileWriter fWriter;
-
-					try {
-						fWriter = new FileWriter(fos.getFD());
-						fWriter.write(txt);
-						fWriter.close();
-						Log.v(TAG, txt);
-					} catch (Exception e) {
-						e.printStackTrace();
-					} finally {
-						fos.getFD().sync();
-						fos.close();
-						Log.v(TAG, txt);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			} finally {
-
-			}
 		} catch (RuntimeException e) {
-			Toast.makeText(context, "No Sim card detected, stopping service",
+			e.printStackTrace();
+			Toast.makeText(context, "No Signal detected, stopping service",
 					Toast.LENGTH_SHORT).show();
 			stopService(new Intent(this, Smsgps.class));
 		}
@@ -119,17 +98,26 @@ public class Smsgps extends Service {
 
 	}
 
+
+	
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
 		String phonenr;
-		String messageText = latstring + longstring;
+		
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "log.txt");
+		
 		private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 		private static final String TAG = "SMSBroadcastReceiver";
 		IntentFilter filter = new IntentFilter();
 		SmsManager sms = SmsManager.getDefault();
 
+		
 		@Override
+		 
 		public void onReceive(Context context, Intent intent) {
+			
 			Log.i(TAG, "Intent recieved: " + intent.getAction());
 
 			if (intent.getAction() == SMS_RECEIVED) {
@@ -154,12 +142,47 @@ public class Smsgps extends Service {
 
 						if (messagebody.equals(code)) {
 
-							sms.sendTextMessage(phonenr, null, messageText,
+							sms.sendTextMessage(phonenr, null, latstring + longstring,
 									null, null);
+							SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							String format = s.format(new Date());
+							String ts = "SMS sent at " + format + newline;
+							try {
+
+								FileOutputStream fos;
+
+								try {
+									fos = new FileOutputStream(file,
+											true);
+
+									FileWriter fWriter;
+
+									try {
+										fWriter = new FileWriter(fos.getFD());
+										fWriter.write(ts);
+										fWriter.close();
+										Log.v(TAG, ts);
+									} catch (Exception e) {
+										e.printStackTrace();
+									} finally {
+										fos.getFD().sync();
+										fos.close();
+										Log.v(TAG, ts);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
+							} finally {
+
+							}
+							
+							
 
 						} else {
 							clearAbortBroadcast();
-
+							
+							
 						}
 
 					}
