@@ -16,5 +16,8 @@
     <string name="title_activity_helpinfo">Helpinfo</string>
     <string name="title_activity_entercode">Entercode</string>
     <string name="title_activity_blockednumbers">Blockednumbers</string>
+    <string name="title_activity_confirmlog">Confirmlog</string>
+    <string name="title_activity_enternum">Enternum</string>
+    <string name="title_activity_confirmblock">Confirmblock</string>
 
 </resources>

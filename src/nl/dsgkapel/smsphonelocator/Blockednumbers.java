@@ -40,54 +40,21 @@ public class Blockednumbers extends ActionBarActivity {
 
 	}
 	
+	public void addnum(View view){
+		Intent intent = new Intent(this, Enternum.class);
+		startActivity(intent);
+	}
+	
 	public void clearnum(View view){
-		Context context = getApplicationContext();
-		String numstring = "";
-		File path = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		File file = new File(path, "blocked.txt");
-		try {
-
-			FileOutputStream fos;
-
-			try {
-				fos = new FileOutputStream(file,
-						false);
-
-				FileWriter fWriter;
-
-				try {
-					fWriter = new FileWriter(fos.getFD());
-					fWriter.write(numstring);
-					fWriter.close();
-					Log.v(TAG, numstring);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					fos.getFD().sync();
-					fos.close();
-					Log.v(TAG, numstring);
-					
-					Toast.makeText(context, "number list cleared",
-							Toast.LENGTH_SHORT).show();
-					shownum();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-
-		}
-
-		
+		Intent intent = new Intent(this, Confirmblock.class);
+		startActivity(intent);
 	}
 	
 	public void shownum(){
 	TextView text;
 	int i = 0;
 	
-	LinearLayout layout = (LinearLayout) findViewById(R.id.blocklayout);
+	LinearLayout layout = (LinearLayout) findViewById(R.id.scrollblock);
 	File path = Environment
 			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	File file = new File(path, "blocked.txt");
@@ -143,46 +110,7 @@ public class Blockednumbers extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	public void save(View view){
-		Context context = getApplicationContext();
-		EditText numtext = (EditText) findViewById(R.id.savenum);
-		String numstring = numtext.getText().toString() + newline;
-		File path = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		File file = new File(path, "blocked.txt");
-		try {
 
-			FileOutputStream fos;
-
-			try {
-				fos = new FileOutputStream(file,
-						true);
-
-				FileWriter fWriter;
-
-				try {
-					fWriter = new FileWriter(fos.getFD());
-					fWriter.write(numstring);
-					fWriter.close();
-					Log.v(TAG, numstring);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					fos.getFD().sync();
-					fos.close();
-					Log.v(TAG, numstring);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-
-		}
-		Toast.makeText(context, "number saved",
-				Toast.LENGTH_SHORT).show();
-		shownum();
-	}
 
 	/**
 	 * A placeholder fragment containing a simple view.

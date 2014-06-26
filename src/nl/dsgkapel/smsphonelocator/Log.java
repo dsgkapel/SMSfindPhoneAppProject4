@@ -34,7 +34,7 @@ public class Log extends ActionBarActivity {
 		TextView text;
 		int i = 0;
 		
-		LinearLayout layout = (LinearLayout) findViewById(R.id.loglayout);
+		LinearLayout layout = (LinearLayout) findViewById(R.id.scrolllog);
 		File path = Environment
 				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 		File file = new File(path, "log.txt");
@@ -50,7 +50,6 @@ public class Log extends ActionBarActivity {
 			while (readString != null) {
 				fileContent.append(readString);
 				readString = buffreader.readLine();
-
 				text = new TextView(this);
 				text.setText(readString);
 				text.setGravity(Gravity.CENTER);
@@ -62,6 +61,12 @@ public class Log extends ActionBarActivity {
 			fis.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			text = new TextView(this);
+			text.setText("Log empty");
+			text.setGravity(Gravity.CENTER);
+			text.setTextColor(Color.parseColor("#FFFFFF"));
+			text.setId(100);
+			layout.addView(text);
 		}
 
 	}
@@ -104,45 +109,8 @@ public class Log extends ActionBarActivity {
 	}
 
 	public void clearlog(View view){
-		Context context = getApplicationContext();
-		String numstring = "";
-		File path = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		File file = new File(path, "log.txt");
-		try {
-
-			FileOutputStream fos;
-
-			try {
-				fos = new FileOutputStream(file,
-						false);
-
-				FileWriter fWriter;
-
-				try {
-					fWriter = new FileWriter(fos.getFD());
-					fWriter.write(numstring);
-					fWriter.close();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					fos.getFD().sync();
-					fos.close();
-					
-					
-					Toast.makeText(context, "Log cleared",
-							Toast.LENGTH_SHORT).show();
-					
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-
-		}
-
+		Intent intent = new Intent(this, Confirmlog.class);
+		startActivity(intent);
 		
 	}
 	

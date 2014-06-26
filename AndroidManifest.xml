@@ -63,7 +63,6 @@
             android:exported="true" >
         </receiver>
 
-
         <activity
             android:name="nl.dsgkapel.smsphonelocator.Blockednumbers"
             android:label="@string/title_activity_blockednumbers" >
@@ -74,6 +73,19 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name="nl.dsgkapel.smsphonelocator.Confirmlog"
+            android:label="@string/title_activity_confirmlog" >
+        </activity>
+        <activity
+            android:name="nl.dsgkapel.smsphonelocator.Enternum"
+            android:label="@string/title_activity_enternum" >
+        </activity>
+        <activity
+            android:name="nl.dsgkapel.smsphonelocator.Confirmblock"
+            android:label="@string/title_activity_confirmblock" >
+        </activity>
     </application>
 
 </manifest>

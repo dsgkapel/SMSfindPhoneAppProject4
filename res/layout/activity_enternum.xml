@@ -7,6 +7,34 @@
     android:orientation="vertical"
     tools:context="com.example.smsphone.Blockednumbers" >
 
+    <EditText
+        android:id="@+id/savename"
+        android:layout_width="166dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:hint="Enter name"
+        android:inputType="text"
+        android:textColor="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/savenum"
+        android:layout_width="166dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:digits="0123456789+"
+        android:hint="Enter number"
+        android:inputType="phone"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/phoneformat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Enter number in this format: +31612345678"
+        android:textColor="@color/White" />
 
     <Button
         android:id="@+id/savebutton"
@@ -15,20 +43,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:onClick="addnum"
-        android:text="Add number"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:onClick="clearnum"
-        android:text="Clear list"
+        android:onClick="save"
+        android:text="Save Number"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
@@ -44,27 +60,5 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/blockednums"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Blocked numbers:"
-        android:textColor="@color/White" />
-    
-        <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
-            android:id="@+id/scrollblock"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-            
-            
-        </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

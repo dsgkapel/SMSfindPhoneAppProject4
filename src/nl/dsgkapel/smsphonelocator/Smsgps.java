@@ -343,9 +343,8 @@ public class Smsgps extends Service {
 							SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							String format = s.format(new Date());
 							String ts = "SMS sent to " + phonenr + " at " + format + newline;
-							Log.v(TAG, "Does this fucking thing work yet?");
 							try {
-
+ 
 								FileOutputStream fos;
 
 								try {
