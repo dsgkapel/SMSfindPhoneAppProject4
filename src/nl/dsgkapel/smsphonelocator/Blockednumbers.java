@@ -3,28 +3,23 @@ package nl.dsgkapel.smsphonelocator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Blockednumbers extends ActionBarActivity {
 
@@ -48,6 +43,17 @@ public class Blockednumbers extends ActionBarActivity {
 	public void clearnum(View view){
 		Intent intent = new Intent(this, Confirmblock.class);
 		startActivity(intent);
+	}
+	
+	public void editnum(View view){
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "blocked.txt");
+		Intent intent = new Intent();
+		intent.setAction(android.content.Intent.ACTION_EDIT);
+
+		intent.setDataAndType(Uri.fromFile(file), "text/plain");
+		startActivity(intent); 
 	}
 	
 	public void shownum(){
