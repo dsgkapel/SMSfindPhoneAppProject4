@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class SmsReceiver extends BroadcastReceiver {
 	
 	
-//Dit bestand is nutteloos nu maar ik ben bang om hem te verwijderen want je weet het nooit met android.
+
 
     @Override
     public void onReceive(Context context, Intent intent) {

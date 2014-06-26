@@ -63,10 +63,17 @@
             android:exported="true" >
         </receiver>
 
+
         <activity
             android:name="nl.dsgkapel.smsphonelocator.Blockednumbers"
             android:label="@string/title_activity_blockednumbers" >
         </activity>
+
+        <service
+            android:name="nl.dsgkapel.smsphonelocator.Smsgps2"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

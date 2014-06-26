@@ -3,8 +3,11 @@ package nl.dsgkapel.smsphonelocator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Log extends ActionBarActivity {
 
@@ -99,6 +103,49 @@ public class Log extends ActionBarActivity {
 		}
 	}
 
+	public void clearlog(View view){
+		Context context = getApplicationContext();
+		String numstring = "";
+		File path = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File file = new File(path, "log.txt");
+		try {
+
+			FileOutputStream fos;
+
+			try {
+				fos = new FileOutputStream(file,
+						false);
+
+				FileWriter fWriter;
+
+				try {
+					fWriter = new FileWriter(fos.getFD());
+					fWriter.write(numstring);
+					fWriter.close();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					fos.getFD().sync();
+					fos.close();
+					
+					
+					Toast.makeText(context, "Log cleared",
+							Toast.LENGTH_SHORT).show();
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} finally {
+
+		}
+
+		
+	}
+	
 	public void exit(View view) {
 
 		Intent intent = new Intent(this, Settings.class);

@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:hint="Enter phone number"
+        android:hint="Enter number"
         android:textColor="#FFFFFF" />
     
         <TextView

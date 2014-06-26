@@ -28,7 +28,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class Smsgps extends Service {
+public class Smsgps2 extends Service {
 
 	public static boolean running = false;
 	LocationManager lm;
@@ -42,8 +42,7 @@ public class Smsgps extends Service {
 	public String code;
 	public ArrayList<String> blockednumbers = new ArrayList<String>();
 	public String newline = System.getProperty("line.separator");
-	public String code2 = "test";
-
+	
 
 
 	
@@ -58,7 +57,7 @@ public class Smsgps extends Service {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
 		TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		registerReceiver(receiver, filter);
+		registerReceiver(receiver2, filter);
 		running = true;
 		Location location = lm.getLastKnownLocation(PROVIDER);
 
@@ -68,17 +67,6 @@ public class Smsgps extends Service {
 		return START_STICKY;
 	}
 	
-	public void newreceiver(){
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		registerReceiver(receiver3, filter);
-	}
-	
-	public void oldreceiver(){
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		registerReceiver(receiver, filter);
-	}
 	
 	public void getCode(){
 		File path = Environment
@@ -136,7 +124,6 @@ public class Smsgps extends Service {
 		
 	}
 
-
 	public void saveLoc(Location l) {
 		Context context = getApplicationContext();
 		Log.v(TAG, "Method running");
@@ -154,7 +141,7 @@ public class Smsgps extends Service {
 			e.printStackTrace();
 			Toast.makeText(context, "No Signal detected, stopping service",
 					Toast.LENGTH_SHORT).show();
-			stopService(new Intent(this, Smsgps.class));
+			stopService(new Intent(this, Smsgps2.class));
 		}
 	}
 
@@ -162,17 +149,18 @@ public class Smsgps extends Service {
 		Context context = getApplicationContext();
 		running = false;
 		lm.removeUpdates(ll);
+		CharSequence text = "Service stopped";
 		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(context, "Service stopped", duration);
+		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
-		unregisterReceiver(receiver);
-	
-		
+		unregisterReceiver(receiver2);
+		context.startService(new Intent(context, Smsgps.class));
+
 	}
 
 
 	
-	private final BroadcastReceiver receiver = new BroadcastReceiver() {
+	private final BroadcastReceiver receiver2 = new BroadcastReceiver() {
 
 		String phonenr;
 		
@@ -192,7 +180,6 @@ public class Smsgps extends Service {
 			boolean blocked = false;
 			Log.i(TAG, "Intent recieved: " + intent.getAction());
 			String[] blockarray = blockednumbers.toArray(new String[blockednumbers.size()]);
-			
 			if (intent.getAction() == SMS_RECEIVED) {
 				Bundle bundle = intent.getExtras();
 				if (bundle != null) {
@@ -230,7 +217,6 @@ public class Smsgps extends Service {
 							SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							String format = s.format(new Date());
 							String ts = "SMS sent to " + phonenr + " at " + format + newline;
-							
 							try {
 
 								FileOutputStream fos;
@@ -260,128 +246,14 @@ public class Smsgps extends Service {
 							} finally {
 
 							}
-							IntentFilter filter = new IntentFilter();
-							filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-							registerReceiver(receiver3, filter);
-							unregisterReceiver(receiver);
 							
+							context.stopService(new Intent(context, Smsgps2.class));
 							}
 							
 
 						} else {
 							clearAbortBroadcast();
-							IntentFilter filter = new IntentFilter();
-							filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-							registerReceiver(receiver3, filter);
-							unregisterReceiver(receiver);
-							
-							
-						}
-
-					}
-				}
-			
-		}
-	};
-	
-	private final BroadcastReceiver receiver3 = new BroadcastReceiver() {
-
-		String phonenr;
-		
-		File path = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		File file = new File(path, "log.txt");
-		
-		private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
-		private static final String TAG = "SMSBroadcastReceiver";
-		IntentFilter filter = new IntentFilter();
-		SmsManager sms = SmsManager.getDefault();
-
-		
-		@Override
-		 
-		public void onReceive(Context context, Intent intent) {
-			boolean blocked = false;
-			Log.i(TAG, "Intent recieved: " + intent.getAction());
-			String[] blockarray = blockednumbers.toArray(new String[blockednumbers.size()]);
-			
-			if (intent.getAction() == SMS_RECEIVED) {
-				Bundle bundle = intent.getExtras();
-				if (bundle != null) {
-
-					Object[] pdus = (Object[]) bundle.get("pdus");
-					final SmsMessage[] messages = new SmsMessage[pdus.length];
-
-					for (int i = 0; i < pdus.length; i++) {
-						messages[i] = SmsMessage
-								.createFromPdu((byte[]) pdus[i]);
-						phonenr += messages[i].getOriginatingAddress();
-					}
-					if (messages.length > -1) {
-
-						String messagebody = messages[0].getMessageBody();
-						Log.i(TAG, "Message recieved: " + messagebody);
-						CharSequence text = "SMS Received: " + messagebody;
-						Toast.makeText(context, text, Toast.LENGTH_SHORT)
-								.show();
-
-						for(int i = 0; i < blockarray.length; i++){
-							if(blockarray[i] == phonenr){
-								blocked = true;
-							}
-							else{
-								blocked = false;
-							}
-						}
-						
-						if (messagebody.equals(code) && blocked == false) {
-
-							Log.v(TAG, "He's going to send the 2nd SMS now");
-							sms.sendTextMessage(phonenr, null, latstring + longstring,
-									null, null);
-							Log.v(TAG, "2nd SMS should have been sent by now.");
-							SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-							String format = s.format(new Date());
-							String ts = "SMS sent to " + phonenr + " at " + format + newline;
-							Log.v(TAG, "Does this fucking thing work yet?");
-							try {
-
-								FileOutputStream fos;
-
-								try {
-									fos = new FileOutputStream(file,
-											true);
-
-									FileWriter fWriter;
-
-									try {
-										fWriter = new FileWriter(fos.getFD());
-										fWriter.write(ts);
-										fWriter.close();
-										Log.v(TAG, ts);
-									} catch (Exception e) {
-										e.printStackTrace();
-									} finally {
-										fos.getFD().sync();
-										fos.close();
-										Log.v(TAG, ts);
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-
-							} finally {
-
-							}
-							oldreceiver();
-							
-							
-							}
-							
-
-						} else {
-							clearAbortBroadcast();
-							oldreceiver();
+							context.stopService(new Intent(context, Smsgps2.class));
 							
 						}
 
